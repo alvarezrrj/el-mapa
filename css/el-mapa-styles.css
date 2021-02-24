@@ -1,0 +1,512 @@
+/*=== Fonts === */
+@font-face {
+	font-family: "Tangerine";
+	src: url('/fonts/Tangerine-Bold.ttf') format('truetype');
+}
+
+/*=== Preloader ===*/
+#loader-container {
+	z-index: 9999;  
+	overflow: hidden;  
+}
+
+
+.preloader-full-screen {
+	position: fixed;
+	top: 0;  
+	left: 0;  
+	right: 0;  
+	bottom: 0;  
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.preloader-responsive {
+	width: 100%;
+	height: auto;
+}
+
+.opaque {
+	background-color: white;
+}
+
+/*This preloader is circular with a side size of 15% it's parent container*/
+#preloader{  
+	position: relative;
+	top: 40%;  
+	left: 40%;  
+	border: 6px solid #f2f2f2;  
+	border-top: 6px solid #56829e ;  
+	border-radius: 50%;  
+	width: 15%;  
+	max-width: 120px;
+	-webkit-animation: animate-preloader 1s linear infinite;  
+	animation: animate-preloader 1s linear infinite;
+}
+#preloader:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+@-webkit-keyframes animate-preloader {  
+	0% {    
+		-webkit-transform: rotate(0deg);    
+		transform: rotate(0deg);  
+	}  
+
+	100% {    
+		-webkit-transform: rotate(360deg);    
+		transform: rotate(360deg);  
+	}
+}
+
+@keyframes animate-preloader {  
+	0% {    
+		-webkit-transform: rotate(0deg);    
+		transform: rotate(0deg);  
+	}  
+	100% {    
+		-webkit-transform: rotate(360deg);    
+		transform: rotate(360deg);  
+	}
+}
+/*=== Preloader ===*/
+
+
+
+/*=== Override Leaflet's properties ===*/
+.leaflet-popup-content-wrapper {
+	text-align: inherit;
+}
+
+.leaflet-fade-anim .leaflet-tile {
+	will-change: unset;
+}
+  
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	will-change: unset;
+}
+/*=== Override Leaflet's properties ===*/
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	margin: 0;
+	
+}
+
+/*=== Foggy bit ===*/
+.fog {
+	background-color: rgba(0, 0, 0, 0.5); 
+	position: absolute;
+	z-index: 50;
+}
+
+
+/*#horizontal-fog {
+	height: 2rem;
+	width: 100%;
+}*/
+
+
+#vertical-fog {
+	display: none;
+}
+
+#full-screen-fog {
+	height: calc(100vh - 2rem);
+	width: 100vw;
+	top: 2rem;
+	z-index: 150;
+}
+
+#widget-fog {
+	height: calc(100vh - 5rem);
+	width: 100vw;
+	top: 5rem;
+}
+/*=== Foggy bit ===*/
+
+button {
+	box-sizing: content-box;
+}
+
+#map {
+	position: fixed;
+	width: 100%;
+	margin: 0 auto;
+	height: 100vh;
+	z-index: 10;
+}
+
+
+.hidden {
+	display: none;
+}
+
+nav {
+	width: 90%;
+	text-align: center;
+	vertical-align: middle -webkit-baseline-middle;
+	height: 2rem;
+	position: absolute;
+	left: 5%;
+	z-index: 250;
+}
+
+nav > input {
+	display: inline;
+	font-size: 1rem;
+	height: 2rem;
+}
+
+#no-match {
+	color: red;
+}
+
+/*=== Widgets ===*/
+#widget-bar {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 90%;
+	position: absolute;
+	left: 5%;
+	top: 2rem;
+	z-index: 100;
+}
+
+#widget-icons {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.widget {
+	height: 3rem;
+	width: calc(1.618 * 3rem);
+	cursor: pointer;
+	border-radius: 7px;
+	/*Golden ratio*/
+	margin: 0 1.67%;
+	background-origin: border-box;
+	background-repeat: no-repeat;
+}
+
+.widget-content	 {
+	cursor: default;	
+	background-color: rgba(180, 180, 180, 0.75);
+	filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+	display: flex;
+	flex-direction: column;
+	width: min(60vw, fit-content);
+	max-width: 700px;
+	margin-top: 15px;
+	max-height: 250px;
+	border-radius: 10px;
+	box-shadow: 2px 2px 0.75em, -2px -2px 0.75em;
+}
+
+#weather-icon {
+	background-image: url('/el-mapa/images/sun&cloud.svg');
+}
+
+#news-icon {
+	background-image: url('/el-mapa/images/newspaper.svg');
+}
+
+p.error {
+	text-align: center;
+	cursor: pointer;
+}
+/*=== Widgets ===*/
+
+/*=== Weather ===*/
+#weather-top {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 100%;
+	height: 40%;
+	padding: 0 5px;
+}
+
+#weather-temp > p {
+	font-size: 4rem;
+	margin: 0 0 0 10px;
+}
+
+#weather-bottom {
+	display: flex;
+	justify-content: space-between;
+	/*width: 100%;*/
+	height: 60%;
+	max-height: 60%;
+	font-size: 0.75rem;
+	padding: 0 10px;
+}
+
+.forecast {
+	text-align: center;
+	flex: auto;
+	min-width: 65px;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.forecast > img {
+	height: auto;
+}
+
+#weather-min {
+	color: rgb(38, 62, 129);
+}
+/*=== Weather ===*/
+
+/*=== News ===*/
+.news {
+	align-items: center;
+	overflow-y: scroll;
+}
+
+.news-article {
+	display: flex;
+	flex-direction: column;
+
+}
+
+#news-title {
+	font-weight: bold;
+	font-size: 1.2rem;
+	margin: 5px 0;
+}
+
+#news-description {
+	margin: 10px 0 0 0;
+}
+
+#news-link {
+	text-decoration: none;
+}
+
+#news-source {
+	width: 90%;
+	text-align: right;
+	font-style: italic;
+}
+
+.news hr {
+	width: 95%;
+}
+/*=== News ===*/
+
+/*=== Restaurant ===*/
+.restaurant {
+	min-width: 300px;
+	background-size: cover;
+	background-position: center;
+	text-align: center;
+}
+
+.rest-fog {
+	background-color: rgba(225, 225, 225, 0.5);
+}
+
+.restaurant h1 {
+	font-size: 2.25rem;
+	font-family: Tangerine, cursive;
+}
+
+.restaurant h2 {
+	clear: both;
+}
+
+.restaurant address {
+	float: left;
+	text-align: left;
+	font-weight: 700;
+}
+
+.restaurant p {
+	float: right;
+	text-align: center;
+	position: relative;
+	bottom: 9px;
+	right: 5px;
+	margin: 0;
+}
+
+.rest-star {
+	height: 2rem;
+	width: auto;
+}
+
+.rest-rating {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.restaurant hr {
+	clear: both;
+	margin: 0;
+}
+/*=== Restaurant ===*/
+
+#attributions-button {
+	cursor: pointer;
+	position: absolute;
+	z-index: 11;
+	bottom: 0;
+	right: 0;
+	background-color: white;
+	border-top-left-radius: 7px;
+	color: blue;
+	text-decoration: underline;
+}
+
+#search-bar-instructions {
+	font-family: Tangerine, cursive, fantasy;
+	height: auto;
+	width: 75vw;
+	position: absolute;
+	z-index: 200;
+	top: 7.5rem;
+	left: 12.5vw;
+	background-color: rgb(255, 239, 209);
+	box-shadow: 7px 3px 0.5em black;
+	border-radius: 7px;
+	text-align: center;	
+}
+
+#pointy-finger {
+	position: absolute;
+	z-index: 200;
+	top: 1rem;
+	left: calc(50vw - 2.5rem);
+	height: auto;
+	background-image: url('/el-mapa/images/pointy-hand.png');
+}
+
+#pointy-finger > img {
+	width: 5rem;
+	filter: drop-shadow(15px 5px 7px rgba(0, 0, 0, 0.75));
+}
+
+#go {
+	display: none;
+}
+
+.text-centered {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+img[src="images/earthquake.png"] {
+	filter: drop-shadow(15px -3px 7px rgba(0, 0, 0, 0.75));
+}
+
+/*=== Capital city popup ===*/
+#capital-popup p {
+	margin: 12px 0;
+}
+#capital-popup h1, #capital, #wiki {
+	text-align: center;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+#capital {
+	clear: both;
+}
+
+/*=== Capital city popup ===*/
+
+/*Small devices (up to iPad or landscape phone)*/
+@media only screen and (max-width: 800px) {
+	.widget-content {
+		max-width: 95vw;
+		width: 95vw;
+		left: 2.5vw;
+		overflow-x: hidden;
+	}
+
+	#weather-bottom {
+		overflow-x: scroll;
+	}
+
+	.forecast {
+		display: inline-block;
+	}
+
+	.forecast > img {
+		padding-right: 20px;
+	}
+
+	#search-bar-instructions {
+		font-size: 1.5rem;
+		width: 90vw;
+		left: 5vw;
+	}
+}
+/*Small devices*/
+
+/*On landscape mode, small devices*/
+@media only screen and (orientation: landscape) and (max-height: 700px) {
+	/*Position widgets on the left by inverting dimensions*/
+	#widget-bar {
+		flex-direction: row;
+		top: 2rem;
+		left: 0;
+		max-width: 95vw;
+		width: auto;
+		height: calc(100vh - 2rem);
+		align-items: center;
+	}
+
+	#widget-icons {
+		flex-direction: column;
+		width: 3rem;
+		height: 50vh;
+		top: 25vh;
+	}
+
+	.widget-content {
+		margin-top: 0;
+		margin-left: 15px;
+		width: fit-content(90vw);
+	}
+
+	/*Invert widget orientaion*/
+	.widget {
+		width: 3rem;
+	}
+
+	/*Resize widget fog*/
+	#widget-fog {
+		height: 100vh;
+		width: calc(100vw - 3rem);
+		top: 0;
+		left: 3rem;
+	}
+}
+
+/*If cursor is detected, show 'go' button*/
+@media (pointer: fine) {
+	#go {
+		display: inline;
+	}
+}

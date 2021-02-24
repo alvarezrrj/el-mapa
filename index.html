@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+		<head>
+				<meta charset="utf-8">
+				<title>El Mapa</title>
+				<meta name="author" content="Rodrigo Alvarez - web developer">
+				<meta name="description" content="An app that talks to APIs and shows you things.">
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+
+				<link 
+					href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+					rel="stylesheet" type="text/css"
+				  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+					crossorigin="" >
+				<link href="css/el-mapa-styles.css" rel="stylesheet" type="text/css">
+
+		</head>
+
+		<body>
+			<div id="loader-container" class="preloader-full-screen opaque"><div id="preloader"></div></div>
+
+			
+			<header>
+
+				<nav>
+					<input list="countries-list" id="countries-input" name="country" placeholder="Wanna go for a ride?">
+					<datalist id="countries-list">
+					</datalist>
+					<button id="go">Fly</button>
+					<div id="no-match" class="hidden">
+						<p>Oops! we don't know that place, please check your spelling.</p>
+					</div>
+				</nav>
+
+			</header>
+
+			<main>
+
+				<!--Widget container-->
+				<div id="widget-bar">
+					<div id="widget-icons">
+						<div id="weather-icon" class="widget"></div>
+						<div id="news-icon" class="widget"></div>
+					</div>	
+				</div>
+
+				<!--Map container-->
+				<div id="map"></div>
+
+				<!--Attributions control button-->
+				<div id="attributions-button">Attributions</div>
+
+				<!--Hidden stuff-->
+				<div id="search-bar-instructions" class="hidden">
+					<p>Tap the search bar and start typing the name of your country.</p>
+				</div>
+				<div id="full-screen-fog" class="hidden fog"></div>
+
+				<div id="widget-fog" class="hidden fog"></div>
+
+				<div id="pointy-finger" class="hidden"><img src="/el-mapa/images/pointy-hand.png"></div>	
+
+				<!--Capital template-->
+				<div id="capital-popup" class="hidden">
+					<h1 id="country-name"></h1>
+					<div class="left">
+						<p id="population"></p>
+						<p id="area"></p>
+					</div>
+					<div class="right">
+						<p id="currency"></p>
+						<p id="exchangeR"></p>
+					</div>
+					<h2 id="capital"></h2>
+					<p id="wiki"></p>
+				</div>
+
+				<!--Weather template-->
+				<div class="widget-content weather hidden">
+					<div id="weather-top">
+						<img id="weather-img"></img>
+						<p>
+						<span id="weather-description"></span><br>
+						<span id="weather-feelsLike"></span><br>
+						<span id="weather-humidity"></span>
+						</p>
+						<div id="weather-temp"></div>
+					</div>
+					<div id="weather-bottom">
+						<div class="template forecast">
+							<img></img><br>
+							<span id="weather-pop"></span><br>
+							<span><span id="weather-max"></span> <span id="weather-min"></span></span><br>
+							<span id="weather-day"></span>
+						</div>	
+					</div>
+				</div>
+
+				<!--News template-->
+				<div class="widget-content news hidden">
+					<div class="news-article template">
+						<h1 id="news-title"></h1>
+						<p id="news-description"></p>
+						<span id="news-link"></span>
+						<span id="news-source"></span>
+						<hr>
+					</div> 
+				</div>	
+
+				<!--Restaurant template-->
+				<div class="restaurant hidden">
+					<div class="rest-fog">
+						<h1 class="rest-name"></h1>
+						<h2 class="rest-cat"></h2>
+						<address>
+							<a class="rest-tel"></a><br>
+						</address>	
+						<p>
+						<img class="rest-star" src="images/star.svg"><br>
+						<span class="rest-rating"></span>
+						</p>
+						<hr>
+					</div>
+				</div>	
+
+			</main>
+
+
+				<script 
+					src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   				integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+					crossorigin="">
+				</script>
+				<script src="/libraries/leaflet-providers.js"></script>
+				<script src="/libraries/jquery-3.5.1.js"></script>
+				<script src="/libraries/aqi.js"></script>
+				<script src="js/modules/apiCallers.js"></script>
+				<script src="js/modules/countriesFileHandlers.js"></script>
+				<script src="js/modules/graphicHandlers.js"></script>
+				<script src="js/modules/errorHandlers.js"></script>
+				<script src="js/el-mapa-script.js"></script>
+		</body>
+</html> 
