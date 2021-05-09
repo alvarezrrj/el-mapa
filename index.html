@@ -13,6 +13,9 @@
 				  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
 					crossorigin="" >
 				<link href="css/el-mapa-styles.css" rel="stylesheet" type="text/css">
+				<!-- W3.CSS -->
+				<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+				<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-khaki.css">
 
 		</head>
 
@@ -23,10 +26,18 @@
 			<header>
 
 				<nav>
-					<input list="countries-list" id="countries-input" name="country" placeholder="Wanna go for a ride?">
+					<form>
+						<input list="countries-list" id="countries-input" name="country" placeholder="Wanna go for a ride?">
+					</form>
 					<datalist id="countries-list">
 					</datalist>
-					<button id="go">Fly</button>
+					<button id="go" class="
+						w3-theme-l2
+						w3-button
+						w3-hover-theme
+						w3-round-large">
+						Go
+					</button>
 					<div id="no-match" class="hidden">
 						<p>Oops! we don't know that place, please check your spelling.</p>
 					</div>
@@ -39,8 +50,22 @@
 				<!--Widget container-->
 				<div id="widget-bar">
 					<div id="widget-icons">
-						<div id="weather-icon" class="widget"></div>
-						<div id="news-icon" class="widget"></div>
+						<div id="weather-icon" 
+								 class="
+												widget 
+												w3-hover-theme
+												w3-theme-l2
+												">
+							<img src="/el-mapa/images/sun&cloud.svg">
+						</div>
+						<div id="news-icon" 
+								 class="
+												widget
+												w3-hover-theme
+												w3-theme-l2
+												">
+							<img src="/el-mapa/images/newspaper.svg">
+						</div>
 					</div>	
 				</div>
 
@@ -48,15 +73,13 @@
 				<div id="map"></div>
 
 				<!--Attributions control button-->
-				<div id="attributions-button">Attributions</div>
+				<div id="attributions-button" class="w3-panel w3-rightbar w3-sand">Attributions</div>
 
 				<!--Hidden stuff-->
 				<div id="search-bar-instructions" class="hidden">
 					<p>Tap the search bar and start typing the name of your country.</p>
 				</div>
 				<div id="full-screen-fog" class="hidden fog"></div>
-
-				<div id="widget-fog" class="hidden fog"></div>
 
 				<div id="pointy-finger" class="hidden"><img src="/el-mapa/images/pointy-hand.png"></div>	
 
@@ -133,7 +156,6 @@
 				</script>
 				<script src="/libraries/leaflet-providers.js"></script>
 				<script src="/libraries/jquery-3.5.1.js"></script>
-				<script src="/libraries/aqi.js"></script>
 				<script src="js/modules/apiCallers.js"></script>
 				<script src="js/modules/countriesFileHandlers.js"></script>
 				<script src="js/modules/graphicHandlers.js"></script>

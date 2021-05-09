@@ -65,9 +65,9 @@ function displayUserLoc(userL) {
 		Coordinates (lat, lng): ${userL.lat}, ${userL.lng}.
 		${userL.alt ? "<br>Altitude: " + userL.alt + " masl." : ""}<br>
 		${userL.town ? userL.town : userL.city}
-		${userL.county ? "<br>" + userL.county : ""}<br>
-		${userL.postode}<br>
-		How did we do?</p>`,
+		${userL.county ? "<br>" + userL.county : ""}
+		${userL.postcode ? "<br>" + userL.postcode : ""}
+		`,
 		{maxWidth: popupWidth,
 		className: 'text-left'}
 	).addTo(map);
@@ -172,17 +172,14 @@ function displayRest(rests) {
 };
 
 function clearData() {
-	if (currentCountry) {
-		currentCountry[1].remove();	//Remove borders
-		currentCountry[2].clearLayers();//Remove cities
-		currentCountry[3].clearLayers();//Remove earthquakes
-		currentCountry[4] &&
-		currentCountry[4].remove();	//Remove user loc data
-		currentCountry[5].clearLayers();//Remove restaurants
-
-	}
+	currentCountry[1].remove();				//Remove borders
+	currentCountry[2].clearLayers(); 			//Remove cities
+	currentCountry[3] && currentCountry[3].clearLayers();	//Remove earthquakes
+	currentCountry[4] && currentCountry[4].remove();	//Remove user loc data
+	currentCountry[5] && currentCountry[5].clearLayers();	//Remove restaurants
 	$('#widget-bar').find('.widget-content').remove();	//Remove widget data
-	layersControl.remove();			//Remove layers control
+	layersControl.remove();					//Remove layers control
+	
 };
 
 function clearPromises() {
@@ -196,6 +193,16 @@ function clearPromises() {
 	restP = $.Deferred();
 };
 
+function layerControlGen(cc) {
+	let layers = {};
+	cc[1] ? layers['Borders'] = cc[1] : "";
+	cc[2] ? layers['Cities'] = cc[2] : "";
+	cc[3] ? layers['Earthquakes'] = cc[3] : "";
+	cc[5] ? layers['Restaurants'] = cc[5] : "";
+	cc[4] ? layers['Yourserlf'] = cc[4] : "";
+	return layers;
+};
+
 function displayData(country, userLoc, exchangeR) {
 	clearPromises();
 	map.flyToBounds(
@@ -206,12 +213,13 @@ function displayData(country, userLoc, exchangeR) {
 			country.info.west,
 		)
 	);
-	//Initialize borders Layer and add to map
-	let bordersLayer = L.geoJSON(country.GJ, {
-		style: {fillOpacity: 0.1}
+	//Add borders and store layer in currentCountry
+	currentCountry[1] = L.geoJSON(country.GJ, {
+		style: {
+			fillOpacity: 0.1,
+			color: '#00B300',
+		}
 	}).addTo(map);
-	//Store borders layer in currentCountry
-	currentCountry[1] = bordersLayer;
 	let $capitalPopup = displayCities(country.cities);
 	populateCapital(country, $capitalPopup);
 	country.earthQ && displayEarthq(country.earthQ);
@@ -221,15 +229,11 @@ function displayData(country, userLoc, exchangeR) {
 	displayNews(country.news);
 	//Add layer control
 	layersControl = L.control.layers({
-		'Map': waterColorTiles					//Base layers
-	}, {
-		'Borders': currentCountry[1],
-		'Cities': currentCountry[2] || L.marker(),		//Overlays
-		'Earthquakes': currentCountry[3] || L.marker(),
-		'Restaurants': currentCountry[5] || L.marker(),
-		'You': currentCountry[4] || L.marker() ,
-	},{
-		hideSingleBase: true,					//Options
+		'Map': waterColorTiles			//Base layers			
+	}, 
+		layerControlGen(currentCountry),	//Overlays
+	{
+		hideSingleBase: true,			//Options
 		position: 'bottomleft',
 	}).addTo(map);
 };

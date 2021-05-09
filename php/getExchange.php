@@ -18,7 +18,8 @@ $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 curl_close($ch);
 
-header('Content-Type: text/html; charset=UTF-8', true,  $status);
+
+header('Content-Type: application/json; charset=UTF-8', true,  $status);
 
 echo json_encode($result['rates']);
 

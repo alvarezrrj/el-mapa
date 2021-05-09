@@ -82,28 +82,17 @@ var map = L.map('map', {
 
 //Initialize attributions element.
 var attribution = L.control.attribution();
-attribution.addAttribution('Font by Toshi Omagari tosche@mac.com');
 attribution.addAttribution('Emojis by <a href="https://openmoji.org/">OpenMoji</a> - License <a href="https://creativecommons.org/licenses/by-sa/4.0/#">CC BY-SA 4.0</a>');
 
 //Add tiles onto the map.
 const waterColorTiles = L.tileLayer.provider('Stamen.Watercolor').addTo(map);
 
 //Function definitions
+//Reactify bonding Box for countries that cross the antimeridian
 function bBoxRect(n, e, s, w) {
 	if (e - w < 0) {
 		e = 360 - Math.abs(e);
 	} return [[n, e], [s, w]];
-};
-
-function handleLocError() {
-	if ($('#preloader-container').is(':visible')) {
-		$('#preloader-container').fadeOut();
-	}
-	alert('Oops! our minions weren\'t able to work out where you are. Please enter your location manually.');
-	$fullScreenFog.removeClass('hidden');
-	$instructions.removeClass('hidden');
-	$pointyFinger.removeClass('hidden');
-
 };
 
 function handleWeatherError(e) {
@@ -184,7 +173,7 @@ function handleSelect(country) {
 }
 
 //=====Asynhcronous tasks ================================================
-//Fetch iso codes
+//Fetch iso codes and populate <datalist>
 $.ajax('/el-mapa/php/getIsoCountries.php' , {
 	dataType: 'json',
 	success: function(response, stat, req) {
@@ -255,7 +244,9 @@ window.navigator.geolocation.getCurrentPosition(
 		});
 	},
 	//Error callback
-	error => handleLocError()
+	error => {
+		handleLocError();
+	}
 );
 
 //==== Map behaviour ===============================================
@@ -265,24 +256,30 @@ $('#attributions-button').click(function() {
 	$(this).hide();
 });
 
-//Hide attributions on map click
+//Hide attributions and widget content on map click
 $('#map').click(() => {
 	attribution.remove();
 	$('#attributions-button').show();
+	$('.widget-content').slideUp();
 });
 
-if ($('#go').css('display') == 'inline') {
+//Attach handleSelect to 'go' button click or select element change event.
+if ($('#go').is(':visible')) {
 	$('#go').click(() => handleSelect($('#countries-input').val()));
 	L.control.zoom().addTo(map);
 } else {
 	$('#countries-input').change((e) => handleSelect(e.target.value));
 }
 
+$('form').submit(function(e) {
+	e.preventDefault();
+	handleSelect($('#countries-input').val());
+});
+
 //On search bar click, clear input and hide widget content.
 $('#countries-input').click((e) => {
 	e.target.value = "";
 	$('.widget-content').slideUp();
-	$('#widget-fog').hide();
 });
 
 //Toggle widget data on click
@@ -290,21 +287,17 @@ $('.widget').click(function() {
 	if (this.id == "weather-icon" && $('#weather-content').is(':hidden')){
 		$('#weather-content').slideDown();
 		$('#news-content').hide();
-		$('#widget-fog').show();
 	}
 	else if (this.id == 'news-icon' && $('#news-content').is(':hidden')) {
 		$('#news-content').slideDown();
 		$('#weather-content').hide();
-		$('#widget-fog').show();
 	}
 	else {
 		$('.widget-content').slideUp();
-		$('#widget-fog').hide();
 	}
 });
 
 $('#widget-fog').click(function() {
-	$('.widget-content').slideUp();
 	$(this).hide();
 });
 

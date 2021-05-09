@@ -12,6 +12,9 @@ function getCountryCode(coords){
 };
 
 function getWikiArt(capital) {
+	if (! countries[currentCountry[0]].cities.some(c => c.name == capital)) {
+		return $.Deferred().resolve(); //If getCities doesn't return the capital, abort.
+	}
 	let lat = countries[currentCountry[0]].cities.find(c => c.name == capital).latitude;
 	let lng = countries[currentCountry[0]].cities.find(c => c.name == capital).longitude;
 	return $.ajax('/el-mapa/php/getWikiArt.php', {

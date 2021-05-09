@@ -6,6 +6,7 @@ function handleLocError() {
 	$fullScreenFog.removeClass('hidden');
 	$instructions.removeClass('hidden');
 	$pointyFinger.removeClass('hidden');
+	$loader.hide();
 
 };
 

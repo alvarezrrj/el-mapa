@@ -3,8 +3,7 @@ function getBorders(countryIso2) {
 		dataType: 'json',
 		data: {country: countryIso2},
 		success: (response, stat, req) => {
-			let bordersLayer = L.geoJSON(response, {style: {fillOpacity: 0.1}});
-			//Store GJ response in countries object
+			//Store response in countries object
 			countries[countryIso2].GJ = response;
 		},
 	});
