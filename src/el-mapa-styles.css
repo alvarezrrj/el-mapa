@@ -1,8 +1,20 @@
-/*=== Fonts === */
+/*=== Fonts ===*/
 @font-face {
-	font-family: "Tangerine";
-	src: url('/fonts/Tangerine-Bold.ttf') format('truetype');
+	font-family: "Raleway";
+	src: url(/fonts/Raleway-VariableFont_wght.ttf) format('truetype');
 }
+
+@font-face {
+	font-family: "Raleway-italic";
+	src: url(/fonts/Raleway-Italic-VariableFont_wght.ttf) format('truetype');
+}
+/*=== Fonts ===*/
+
+/*=== Override W3-CSS fonts ===*/
+h1, h2, h3, h4, h5, h5 {
+	font-family: "Raleway";
+}
+/*=== Override W3-CSS fonts ===*/
 
 /*=== Preloader ===*/
 #loader-container {
@@ -91,8 +103,10 @@
 
 * {
 	box-sizing: border-box;
-	font: sans-serif;
+	font-family: "Raleway", sans-serif; 
 }
+
+
 
 body {
 	width: 100%;
@@ -158,10 +172,22 @@ nav {
 	z-index: 250;
 }
 
-nav > input {
+nav > form {
 	display: inline;
+}
+
+nav > input {
 	font-size: 1rem;
 	height: 2rem;
+}
+
+#go {
+	display: none;
+	padding: 2px;
+	height: 2rem;
+	width: calc(1.63 * 2rem);
+	position: relative;
+	top: -1px;
 }
 
 #no-match {
@@ -171,52 +197,54 @@ nav > input {
 /*=== Widgets ===*/
 #widget-bar {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
-	width: 90%;
+	width: auto;
 	position: absolute;
-	left: 5%;
-	top: 2rem;
+	left: 12px;
+	top: 20vh;
+	max-width: 95vw;
+	width: auto;
+	height: 60vh;
 	z-index: 100;
 }
+
 
 #widget-icons {
 	display: flex;
 	justify-content: space-around;
 	width: 100%;
+	z-index: 100;
 }
 
 .widget {
 	height: 3rem;
-	width: calc(1.618 * 3rem);
+	width: 3rem;
 	cursor: pointer;
-	border-radius: 7px;
-	/*Golden ratio*/
-	margin: 0 1.67%;
-	background-origin: border-box;
-	background-repeat: no-repeat;
+	border-radius: 5px;
+	/*Same border style as map buttons*/
+	border: 2px solid rgba(0,0,0,0.2);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+.widget > img {
+	height: 35px;
 }
 
 .widget-content	 {
 	cursor: default;	
-	background-color: rgba(180, 180, 180, 0.75);
-	/*filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));*/
 	display: flex;
 	flex-direction: column;
 	width: min(60vw, fit-content);
 	max-width: 700px;
 	margin-top: 15px;
 	max-height: 250px;
-	border-radius: 10px;
+	border-radius: 4px;
 	box-shadow: 2px 2px 0.75em, -2px -2px 0.75em;
-}
-
-#weather-icon {
-	background-image: url('/el-mapa/images/sun&cloud.svg');
-}
-
-#news-icon {
-	background-image: url('/el-mapa/images/newspaper.svg');
+	
 }
 
 p.error {
@@ -226,6 +254,10 @@ p.error {
 /*=== Widgets ===*/
 
 /*=== Weather ===*/
+.weather {
+	opacity: 95%;
+}
+
 #weather-top {
 	display: flex;
 	justify-content: space-around;
@@ -270,20 +302,25 @@ p.error {
 /*=== Weather ===*/
 
 /*=== News ===*/
+#news-content {
+	opacity: 95%;
+}
+
 .news {
-	align-items: center;
+	align-items: flex-start;
 	overflow-y: scroll;
 }
 
-.news-article {
-	display: flex;
+.news-article > td {
+	display: flex !important;
 	flex-direction: column;
+	width: 100%;
 
 }
 
 #news-title {
-	font-weight: bold;
-	font-size: 1.2rem;
+	font-size: 1.3rem;
+	font-weight: 600;
 	margin: 5px 0;
 }
 
@@ -298,11 +335,15 @@ p.error {
 #news-source {
 	width: 90%;
 	text-align: right;
-	font-style: italic;
+	font-family: "Raleway-italic";
 }
 
 .news hr {
 	width: 95%;
+}
+
+tr:nth-child(even) hr {
+	border-color: rgb(240, 230, 140);
 }
 /*=== News ===*/
 
@@ -320,7 +361,7 @@ p.error {
 
 .restaurant h1 {
 	font-size: 2.25rem;
-	font-family: Tangerine, cursive;
+	font-family: "Raleway-italic";
 }
 
 .restaurant h2 {
@@ -362,26 +403,20 @@ p.error {
 	cursor: pointer;
 	position: absolute;
 	z-index: 11;
-	bottom: 0;
+	bottom: 0 !important;
 	right: 0;
-	background-color: white;
-	border-top-left-radius: 7px;
-	color: blue;
 	text-decoration: underline;
 }
 
 #search-bar-instructions {
-	font-family: Tangerine, cursive, fantasy;
-	font-size: 2rem;
+	font-size: 1.5rem;
 	height: auto;
 	width: 50vw;
 	position: absolute;
 	z-index: 200;
 	top: 7.5rem;
 	left: 25vw;
-	background-color: rgb(255, 239, 209);
 	box-shadow: 7px 3px 0.5em black;
-	border-radius: 7px;
 	text-align: center;	
 }
 
@@ -397,10 +432,6 @@ p.error {
 #pointy-finger > img {
 	width: 5rem;
 	filter: drop-shadow(15px 5px 7px rgba(0, 0, 0, 0.75));
-}
-
-#go {
-	display: none;
 }
 
 .text-centered {
@@ -469,15 +500,7 @@ img[src="images/earthquake.png"] {
 /*On landscape mode, small devices*/
 @media only screen and (orientation: landscape) and (max-height: 700px) {
 	/*Position widgets on the left by inverting dimensions*/
-	#widget-bar {
-		flex-direction: row;
-		top: 2rem;
-		left: 0;
-		max-width: 95vw;
-		width: auto;
-		height: calc(100vh - 2rem);
-		align-items: center;
-	}
+	
 
 	#widget-icons {
 		flex-direction: column;
