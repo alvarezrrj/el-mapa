@@ -140,10 +140,12 @@ function displayNews(news) {
 		let $t = $('.news-article.template').first(); //Template
 		news.forEach((a, i, arr) => {
 			let $na = $t.clone().appendTo($c).removeClass('template');
-			$na.find('#news-title').html(a.title);
+						     //Remove author from title
+			$na.find('#news-title').html(a.title.split("-")[0]);
 			$na.find('#news-description').html(a.description);
 			$na.find('#news-link').html(`<a target="_blank" href="${a.url}">Read more...</a>`);
 			$na.find('#news-source').html(a.source.name);
+			//Remove template when finished.
 			i == (arr.length - 1) && $c.find('.template').remove();
 		});
 	}

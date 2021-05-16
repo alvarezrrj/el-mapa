@@ -1,4 +1,5 @@
 //TO DO
+//Find out why message won't appear when unkown country is input.
 //Delete all console.logs before deployment!
 //Replace jQuery for the minified version
 //Remove commented out areas in CSS file
