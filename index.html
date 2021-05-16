@@ -7,21 +7,26 @@
 				<meta name="description" content="An app that talks to APIs and shows you things.">
 				<meta name="viewport" content="width=device-width, initial-scale=1">
 
+				<!--Leaflet-->
 				<link 
 					href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
 					rel="stylesheet" type="text/css"
 				  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-					crossorigin="" >
-				<link href="css/el-mapa-styles.css" rel="stylesheet" type="text/css">
+					crossorigin="">
+				<!--Marker Cluster plugin-->
+				<link href="/libraries/markerCluster/markerCluster.css" rel="stylesheet" type="text/css">
+				<link href="/libraries/markerCluster/markerCluster.Default.css" rel="stylesheet" type="text/css">
 				<!-- W3.CSS -->
 				<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 				<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-khaki.css">
-
+				<!--Own stylesheet-->
+				<link href="css/el-mapa-styles.css" rel="stylesheet" type="text/css">
 		</head>
 
 		<body>
-			<div id="loader-container" class="preloader-full-screen opaque"><div id="preloader"></div></div>
-
+			<div id="loader-container" class="preloader-full-screen opaque">
+				<div id="preloader"></div>
+			</div>
 			
 			<header>
 
@@ -107,7 +112,7 @@
 				</div>
 
 				<!--Weather template-->
-				<div class="widget-content weather hidden">
+				<div class="widget-content weather w3-theme-l1 hidden">
 					<div id="weather-top">
 						<img id="weather-img"></img>
 						<p>
@@ -129,13 +134,17 @@
 
 				<!--News template-->
 				<div class="widget-content news hidden">
-					<div class="news-article template">
-						<h1 id="news-title"></h1>
-						<p id="news-description"></p>
-						<span id="news-link"></span>
-						<span id="news-source"></span>
-						<hr>
-					</div> 
+					<table class="w3-table w3-striped w3-theme-l1">
+						<tr class="news-article template">
+							<td>
+								<h1 id="news-title"></h1>
+								<p id="news-description"></p>
+								<span id="news-link"></span>
+								<span id="news-source"></span>
+								<hr>
+							</td> 
+						</tr>
+					</table>
 				</div>	
 
 				<!--Restaurant template-->
@@ -162,6 +171,7 @@
    				integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
 					crossorigin="">
 				</script>
+				<script src="../libraries/markerCluster/leaflet.markerCluster-src.js"></script>
 				<script src="/libraries/leaflet-providers.js"></script>
 				<script src="/libraries/jquery-3.5.1.js"></script>
 				<script src="js/modules/apiCallers.js"></script>

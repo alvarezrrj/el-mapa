@@ -44,7 +44,7 @@ function displayCities(cities){
 };
 
 function displayEarthq(eqs) {
-	currentCountry[3] = L.layerGroup().addTo(map);
+	currentCountry[3] = L.markerClusterGroup().addTo(map);
 	eqs.forEach(e => {
 		let popupContent = (`<p>An earthquake ocurred here on<br> ${e.datetime}.<br>
 			Location (lat, lng): ${e.lat}, ${e.lng}.<br>
@@ -139,7 +139,7 @@ function displayNews(news) {
 		$c.find('p.error').remove(); //Remove error message
 		let $t = $('.news-article.template').first(); //Template
 		news.forEach((a, i, arr) => {
-			let $na = $t.clone().appendTo($c).removeClass('template');
+			let $na = $t.clone().appendTo($c.find('table')).removeClass('template');
 						     //Remove author from title
 			$na.find('#news-title').html(a.title.split("-")[0]);
 			$na.find('#news-description').html(a.description);

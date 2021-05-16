@@ -1,9 +1,11 @@
 //TO DO
+
+//Sort out widget bar getting onthewayof layers control (Desktop)
 //Find out why message won't appear when unkown country is input.
 //Delete all console.logs before deployment!
 //Replace jQuery for the minified version
-//Remove commented out areas in CSS file
-//Tidy up
+//Replace leaflet.markerCluster-src.js for leaflet.markerCluster.js
+//Minify all files.
 
 //Preloader remove
 $(window).on("load", function() {
@@ -83,7 +85,8 @@ var map = L.map('map', {
 
 //Initialize attributions element.
 var attribution = L.control.attribution();
-attribution.addAttribution('Emojis by <a href="https://openmoji.org/">OpenMoji</a> - License <a href="https://creativecommons.org/licenses/by-sa/4.0/#">CC BY-SA 4.0</a>');
+attribution.addAttribution('Emojis by <a href="https://openmoji.org/">OpenMoji</a> - License <a href="https://creativecommons.org/licenses/by-sa/4.0/#">CC BY-SA 4.0</a> |');
+attribution.addAttribution('Fonts by The Raleway Project - impallari@gmail.com - <a href="http://scripts.sil.org/OFL">SIL Open Font License</a> |');
 
 //Add tiles onto the map.
 const waterColorTiles = L.tileLayer.provider('Stamen.Watercolor').addTo(map);
