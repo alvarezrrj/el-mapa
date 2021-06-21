@@ -5,7 +5,7 @@
 				<title>El Mapa</title>
 				<meta name="author" content="Rodrigo Alvarez - web developer">
 				<meta name="description" content="An app that talks to APIs and shows you things.">
-				<meta name="viewport" content="width=device-width, initial-scale=1">
+				<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
 				<!--Leaflet-->
 				<link 
@@ -14,11 +14,11 @@
 				  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
 					crossorigin="">
 				<!--Marker Cluster plugin-->
-				<link href="/libraries/markerCluster/markerCluster.css" rel="stylesheet" type="text/css">
-				<link href="/libraries/markerCluster/markerCluster.Default.css" rel="stylesheet" type="text/css">
+				<link href="/libraries/markerCluster/MarkerCluster.css" rel="stylesheet" type="text/css">
+				<link href="/libraries/markerCluster/MarkerCluster.Default.css" rel="stylesheet" type="text/css">
 				<!-- W3.CSS -->
-				<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-				<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-khaki.css">
+				<link rel="stylesheet" href="/libraries/w3.css">
+				<link rel="stylesheet" href="/libraries/w3-theme-khaki.css">
 				<!--Own stylesheet-->
 				<link href="css/el-mapa-styles.css" rel="stylesheet" type="text/css">
 		</head>
@@ -43,7 +43,13 @@
 						w3-round">
 						Go.
 					</button>
-					<div id="no-match" class="hidden">
+					<div id="no-match" class="
+						hidden
+						w3-panel 
+						w3-pale-red 
+						w3-rightbar 
+						w3-border-red
+						">
 						<p>Oops! we don't know that place, please check your spelling.</p>
 					</div>
 				</nav>
@@ -53,8 +59,7 @@
 			<main>
 
 				<!--Widget container-->
-				<div id="widget-bar">
-					<div id="widget-icons">
+				<div id="widget-bar" class="widget-bar-small"> <div id="widget-icons">
 						<div id="weather-icon" 
 								 class="
 												widget 
@@ -122,11 +127,12 @@
 						</p>
 						<div id="weather-temp"></div>
 					</div>
+					<hr>
 					<div id="weather-bottom">
 						<div class="template forecast">
-							<img></img><br>
-							<span id="weather-pop"></span><br>
-							<span><span id="weather-max"></span> <span id="weather-min"></span></span><br>
+							<img></img>
+							<span id="weather-pop"></span>
+							<span><span id="weather-max"></span> <span id="weather-min"></span></span>
 							<span id="weather-day"></span>
 						</div>	
 					</div>
@@ -148,20 +154,20 @@
 				</div>	
 
 				<!--Restaurant template-->
-				<div class="restaurant hidden">
-					<div class="rest-fog">
+					<div class="restaurant hidden">
+						<img/>
 						<h1 class="rest-name"></h1>
 						<h2 class="rest-cat"></h2>
-						<address>
-							<a class="rest-tel"></a><br>
-						</address>	
-						<p>
-						<img class="rest-star" src="images/star.svg"><br>
-						<span class="rest-rating"></span>
-						</p>
 						<hr>
+					<address>
+						<a class="rest-tel"></a><br>
+					</address>	
+					<p>
+					<img class="rest-star" src="images/star.svg"><br>
+					<span class="rest-rating"></span>
+					</p>
+					<hr>
 					</div>
-				</div>	
 
 			</main>
 
@@ -171,7 +177,7 @@
    				integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
 					crossorigin="">
 				</script>
-				<script src="../libraries/markerCluster/leaflet.markerCluster-src.js"></script>
+				<script src="/libraries/markerCluster/leaflet.markercluster-src.js"></script>
 				<script src="/libraries/leaflet-providers.js"></script>
 				<script src="/libraries/jquery-3.5.1.js"></script>
 				<script src="js/modules/apiCallers.js"></script>

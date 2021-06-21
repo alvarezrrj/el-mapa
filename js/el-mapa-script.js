@@ -1,8 +1,6 @@
 //TO DO
 
-//Sort out widget bar getting onthewayof layers control (Desktop)
-//Find out why message won't appear when unkown country is input.
-//Delete all console.logs before deployment!
+//Add header() to all php routines
 //Replace jQuery for the minified version
 //Replace leaflet.markerCluster-src.js for leaflet.markerCluster.js
 //Minify all files.
@@ -13,9 +11,12 @@ $(window).on("load", function() {
 	$('.widget-content').hide().removeClass('hidden');
 	$('#widget-fog').hide().removeClass('hidden');
 	$("#loader-container").delay(100).fadeOut('slow').removeClass('opaque');
+	//$('#widget-bar').appendTo('.leaflet-control-container');	
+	//$('nav').appendTo('.leaflet-control-container');
 });
 
 //Variables declaration
+var widgets;
 var layersControl;
 var weather;
 var exchangeR;
@@ -26,7 +27,7 @@ var currentCountry = new Array(5);
 var $fullScreenFog = $('#full-screen-fog');
 var $instructions = $('#search-bar-instructions');
 var $pointyFinger = $('#pointy-finger');
-var $noMatch = $('#no-match').hide();
+var $noMatch = $('#no-match');
 var $loader = $('#loader-container');
 var popupWidth = $(window).width() * ($(window).width() > 750 ? 0.4 : 0.80);
 
@@ -78,10 +79,12 @@ const cutlery = L.icon({
 
 //Instantiate map
 var map = L.map('map', {
-	zoomControl: false,				      //remove zoom buttons on top left corner
-	attributionControl: false, 			      //remove attributions element.
-	worldCopyJump: true,				      //jumps back to main world when you pan away.
+	zoomControl: false,	      //remove zoom buttons on top left corner
+	attributionControl: false,    //remove attributions element.
+	worldCopyJump: true,	      //jumps back to main world when you pan away.
 }).fitWorld();
+
+map.createPane('widgets');
 
 //Initialize attributions element.
 var attribution = L.control.attribution();
@@ -193,8 +196,7 @@ $.ajax('/el-mapa/php/getIsoCountries.php' , {
 		});
 	},
 	error: function(req, message, error) {
-		console.error(message);
-		console.error(error);
+		alert(`We are having technical difficulties on our servers. Try again later. Error: ${error}`);
 	}
 });
 
@@ -264,13 +266,18 @@ $('#attributions-button').click(function() {
 $('#map').click(() => {
 	attribution.remove();
 	$('#attributions-button').show();
+	//if (widgets) {widgets = false}
+	//else {
 	$('.widget-content').slideUp();
+	$('#widget-bar').addClass('widget-bar-small').removeClass('widget-bar-big')
+	//}
+	
 });
 
 //Attach handleSelect to 'go' button click or select element change event.
 if ($('#go').is(':visible')) {
 	$('#go').click(() => handleSelect($('#countries-input').val()));
-	L.control.zoom().addTo(map);
+	L.control.zoom({position: 'topright'}).addTo(map);
 } else {
 	$('#countries-input').change((e) => handleSelect(e.target.value));
 }
@@ -284,20 +291,28 @@ $('form').submit(function(e) {
 $('#countries-input').click((e) => {
 	e.target.value = "";
 	$('.widget-content').slideUp();
+	$('#widget-bar').addClass('widget-bar-small').removeClass('widget-bar-big')
 });
 
 //Toggle widget data on click
 $('.widget').click(function() {
+	//Enlarge widget bar to take whole screen
+	$('#widget-bar').removeClass('widget-bar-small').addClass('widget-bar-big')
 	if (this.id == "weather-icon" && $('#weather-content').is(':hidden')){
 		$('#weather-content').slideDown();
 		$('#news-content').hide();
+		widgets = true;
 	}
 	else if (this.id == 'news-icon' && $('#news-content').is(':hidden')) {
 		$('#news-content').slideDown();
 		$('#weather-content').hide();
+		widgets = true;
 	}
 	else {
 		$('.widget-content').slideUp();
+		//Minimize widget bar
+		$('#widget-bar').addClass('widget-bar-small').removeClass('widget-bar-big')
+		//widgets = false;
 	}
 });
 

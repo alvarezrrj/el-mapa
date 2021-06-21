@@ -15,11 +15,24 @@ function displayCities(cities){
 	let $popUp;
 	let capital = countries[currentCountry[0]].info.capital;
 	//Add cities to map and currentCountry array
-	currentCountry[2] = L.layerGroup().addTo(map);
+	currentCountry[2] = L.markerClusterGroup({
+		iconCreateFunction: function(cluster) {
+			return L.divIcon({
+				html: `
+					<div>
+						<span>${cluster.getChildCount()}</span>
+						<img src="/el-mapa/images/marker-icon.png" />
+						</div>
+				`,
+				className: 'cluster',
+			});
+		},
+	}).addTo(map);
 	cities.forEach((c, i, a) => {
 		let icon;  
 		let popupContent;
 		let order;   
+		let binder;
 		switch (i) {
 			case 0: order = ""; break;
 			case 1: order = '2<sup>nd</sup>'; break;
@@ -30,46 +43,68 @@ function displayCities(cities){
 			icon = pin;
 			$popUp = $('#capital-popup').clone().removeClass('hidden').addClass(capital);
 			popupContent = $popUp[0];
+			currentCountry[2].addLayer(L.marker([c.latitude, c.longitude], {icon: icon})
+				.bindTooltip(popupContent, {
+					className: 'text-centered w3-panel w3-leftbar w3-rightbar w3-theme-l2',
+					offset: [-2, -75],
+					direction: 'top',
+				}))
 		} else {
 			icon = new L.Icon.Default();
 			popupContent = `${c.city}, the ${order} most populated city in ${countries[currentCountry[0]].GJ.properties.name}`;
+			currentCountry[2].addLayer(L.marker([c.latitude, c.longitude], {icon: icon})
+				.bindPopup(popupContent, {
+					maxWidth: popupWidth,
+					className: 'text-centered',
+				}))
 		}
-		currentCountry[2].addLayer(L.marker([c.latitude, c.longitude], {icon: icon})
-		.bindPopup(popupContent, {
-			maxWidth: popupWidth,
-			className: 'text-centered',
-		}))
+		
 	});
 	return $popUp
 };
 
 function displayEarthq(eqs) {
-	currentCountry[3] = L.markerClusterGroup().addTo(map);
+	currentCountry[3] = L.markerClusterGroup({
+		iconCreateFunction: function(cluster) {
+			return L.divIcon({
+				html: `
+					<div>
+						<span>${cluster.getChildCount()}</span>
+						<img src="/el-mapa/images/earthquake.png" />
+						</div>
+				`,
+				className: 'cluster',
+			});
+		},
+	}).addTo(map);
 	eqs.forEach(e => {
-		let popupContent = (`<p>An earthquake ocurred here on<br> ${e.datetime}.<br>
+		let popupContent = (`<p>Earthquake magnitude: ${e.magnitude}.<br>
 			Location (lat, lng): ${e.lat}, ${e.lng}.<br>
-			Magnitude: ${e.magnitude}.</p>`);
+			Date: ${e.datetime}.</p>`);
 		currentCountry[3].addLayer(
 			L.marker([e.lat, e.lng], {icon: eqIcon})
 			.bindPopup( popupContent, {
 				maxWidth: popupWidth,
-				className: 'text-centered',
+				className: 'text-justified',
 			})
 		)
 	});
 };
 
 function displayUserLoc(userL) {
-	currentCountry[4] = L.marker([userL.lat, userL.lng], {icon: dancer}).bindPopup(
-		`<p>This is our best guess at your location:<br>
-		Coordinates (lat, lng): ${userL.lat}, ${userL.lng}.
+	currentCountry[4] = L.marker([userL.lat, userL.lng], {icon: dancer}).bindTooltip(
+		`<p>Smile!<br>
+		Coordinates (lat, lng): ${userL.lat.toString().slice(0,6)}, ${userL.lng.toString().slice(0, 6)}.
 		${userL.alt ? "<br>Altitude: " + userL.alt + " masl." : ""}<br>
 		${userL.town ? userL.town : userL.city}
 		${userL.county ? "<br>" + userL.county : ""}
 		${userL.postcode ? "<br>" + userL.postcode : ""}
 		`,
-		{maxWidth: popupWidth,
-		className: 'text-left'}
+		{
+			className: 'text-left w3-panel w3-leftbar w3-rightbar w3-theme-l2',
+			offset: [-3, -70],
+			direction: 'top',
+		}
 	).addTo(map);
 };
 
@@ -99,7 +134,7 @@ function displayWeather(weather) {
 		$w.find('#weather-feelsLike').html(`feels like ${Math.round(b.feels_like)}&#176;C`);
 		$w.find('#weather-humidity').html(`humidity ${b.humidity}%`);
 		$w.find('#weather-temp').html(`<p>${Math.round(b.temp)}&#176;C</p>`);
-		weather.forecast &&
+		if (weather.forecast) {
 			weather.forecast.forEach((f, i, a) => {
 				let $d = $w.find('.forecast.template').clone().appendTo($('#weather-bottom'))
 					.removeClass('template');
@@ -121,6 +156,10 @@ function displayWeather(weather) {
 				//On last iteration, remove forecast template.
 				i == (a.length - 1) && $w.find('.forecast').filter('.template').remove();
 			});
+		} else {
+			//Remove forecast element
+			$w.find('#weather-bottom').remove();
+		}
 	}
 };
 
@@ -134,6 +173,7 @@ function displayNews(news) {
 	}
 	if (news.error) {
 		$c.html('<p class="error">Something went wrong, tap to retry.</p>')
+		.addClass('w3-theme-l1')
 		.click(handleNewsError);
 	} else {
 		$c.find('p.error').remove(); //Remove error message
@@ -153,10 +193,23 @@ function displayNews(news) {
 
 function displayRest(rests) {
 	let $pt = $('.restaurant')	//Template
-	currentCountry[5] = L.layerGroup().addTo(map);
+	currentCountry[5] = L.markerClusterGroup({
+		iconCreateFunction: function(cluster) {
+			return L.divIcon({
+				html: `
+					<div>
+						<span>${cluster.getChildCount()}</span>
+						<img src="/el-mapa/images/cutlery.png" />
+						</div>
+				`,
+				className: 'cluster',
+			});
+		},
+	}).addTo(map);
 	rests.forEach(r => {
 		let $pc = $pt.clone().removeClass('hidden'); 	//popup content jq element
-		$pc.css('background-image', `url(${r.image_url})`); 
+		$pc.find('img').first().attr('src', r.image_url)
+		//$pc.css('background-image', `url(${r.image_url})`); 
 		$pc.find('.rest-name').html(r.name);
 		$pc.find('.rest-cat').html(r.categories[0].title);
 		$pc.find('address').append(`
@@ -236,6 +289,8 @@ function displayData(country, userLoc, exchangeR) {
 		layerControlGen(currentCountry),	//Overlays
 	{
 		hideSingleBase: true,			//Options
-		position: 'bottomleft',
+		position: 'topleft',
 	}).addTo(map);
+	//Make layers control same color as other things.
+	$('.leaflet-control-layers').addClass('w3-hover-theme w3-theme-l2');
 };

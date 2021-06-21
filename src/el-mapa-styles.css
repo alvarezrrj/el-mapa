@@ -99,25 +99,41 @@ h1, h2, h3, h4, h5, h5 {
 .leaflet-zoom-anim .leaflet-zoom-animated {
 	will-change: unset;
 }
+
+.leaflet-control-layers {
+	border: 2px solid rgba(0,0,0,0.2);
+}
 /*=== Override Leaflet's properties ===*/
+
+.cluster {
+	line-height: 0.5rem;
+}
+
+.cluster div{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.cluster span {
+	font-weight: bold;
+}
 
 * {
 	box-sizing: border-box;
 	font-family: "Raleway", sans-serif; 
 }
 
-
-
 body {
 	width: 100%;
 	margin: 0;
-	
+	/*position: fixed;*/
 }
 
 /*=== Foggy bit ===*/
 .fog {
 	background-color: rgba(0, 0, 0, 0.5); 
-	position: absolute;
+	position: fixed;
 	z-index: 50;
 }
 
@@ -163,13 +179,13 @@ button {
 }
 
 nav {
-	width: 90%;
+	width: 70%;
 	text-align: center;
 	vertical-align: middle -webkit-baseline-middle;
 	height: 2rem;
-	position: absolute;
-	left: 5%;
-	z-index: 250;
+	position: fixed;
+	z-index: 800;
+	left: 15%;
 }
 
 nav > form {
@@ -184,42 +200,57 @@ nav > input {
 #go {
 	display: none;
 	padding: 2px;
-	height: 2rem;
+	height: 1.6rem;
 	width: calc(1.63 * 2rem);
 	position: relative;
 	top: -1px;
-}
-
-#no-match {
-	color: red;
+	border: 1px solid rgba(0,0,0,0.2); 
 }
 
 /*=== Widgets ===*/
+#widget-bar::after {
+	content: "-";
+	width: calc(3rem + 12px);
+	display: inline-block;
+	visibility: hidden;
+}
+
+
 #widget-bar {
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
 	align-items: center;
-	width: auto;
+	/*width: calc(100vw - 12px);*/
 	position: absolute;
-	left: 12px;
-	top: 20vh;
-	max-width: 95vw;
-	width: auto;
-	height: 60vh;
-	z-index: 100;
+	left: 10px;
+	top: 25vh;
+	/*max-width: 95vw;*/
+	height: 50vh;
+	z-index: 800;
 }
 
+.widget-bar-big {
+	width: calc(100vw - 12px);
+}
+
+.widget-bar-small {
+	width: 3rem;
+}
 
 #widget-icons {
 	display: flex;
-	justify-content: space-around;
-	width: 100%;
-	z-index: 100;
+	flex-direction: column;
+	justify-content: space-between;
+	/*width: 100%;*/
+	position: relative;
+	height: calc(50vh + 1.6rem);
+	top: calc(25vh - 1.6rem);
 }
 
 .widget {
-	height: 3rem;
-	width: 3rem;
+	height: 3.2rem;
+	width: 3.2rem;
 	cursor: pointer;
 	border-radius: 5px;
 	/*Same border style as map buttons*/
@@ -238,11 +269,12 @@ nav > input {
 	cursor: default;	
 	display: flex;
 	flex-direction: column;
-	width: min(60vw, fit-content);
+	width: 60vw;
 	max-width: 700px;
 	margin-top: 15px;
 	max-height: 250px;
 	border-radius: 4px;
+	border: 2px solid rgba(0,0,0,0.2);
 	box-shadow: 2px 2px 0.75em, -2px -2px 0.75em;
 	
 }
@@ -254,6 +286,10 @@ p.error {
 /*=== Widgets ===*/
 
 /*=== Weather ===*/
+.weather hr {
+	margin: 0;
+}
+
 .weather {
 	opacity: 95%;
 }
@@ -349,23 +385,25 @@ tr:nth-child(even) hr {
 
 /*=== Restaurant ===*/
 .restaurant {
-	min-width: 300px;
+	min-width: 250px;
 	background-size: cover;
 	background-position: center;
 	text-align: center;
 }
 
-.rest-fog {
-	background-color: rgba(225, 225, 225, 0.5);
+.restaurant img {
+	max-width: 250px;
 }
 
 .restaurant h1 {
-	font-size: 2.25rem;
+	font-size: 1.5rem;
 	font-family: "Raleway-italic";
+	width: 100%;
 }
 
 .restaurant h2 {
 	clear: both;
+	font-size: 1.2rem;
 }
 
 .restaurant address {
@@ -397,11 +435,15 @@ tr:nth-child(even) hr {
 	clear: both;
 	margin: 0;
 }
+
+.rest-cat + hr {
+	padding-bottom: 5px;
+}
 /*=== Restaurant ===*/
 
 #attributions-button {
 	cursor: pointer;
-	position: absolute;
+	position: fixed;
 	z-index: 11;
 	bottom: 0 !important;
 	right: 0;
@@ -412,7 +454,7 @@ tr:nth-child(even) hr {
 	font-size: 1.5rem;
 	height: auto;
 	width: 50vw;
-	position: absolute;
+	position: fixed;
 	z-index: 200;
 	top: 7.5rem;
 	left: 25vw;
@@ -421,7 +463,7 @@ tr:nth-child(even) hr {
 }
 
 #pointy-finger {
-	position: absolute;
+	position: fixed;
 	z-index: 200;
 	top: 1rem;
 	left: calc(50vw - 2.5rem);
@@ -442,16 +484,29 @@ tr:nth-child(even) hr {
 	text-align: left;
 }
 
+.text-justified {
+	text-align: justify;
+}
+
 img[src="images/earthquake.png"] {
-	filter: drop-shadow(15px -3px 7px rgba(0, 0, 0, 0.75)) none;
+	filter: drop-shadow(15px -3px 7px rgba(0, 0, 0, 0.75));
 }
 
 /*=== Capital city popup ===*/
+#capital-popup {
+	width: 40vw;
+}
+
+#country-name {
+	margin: 0;
+}
+
 #capital-popup p {
-	margin: 12px 0;
+	margin: 8px 0;
 }
 #capital-popup h1, #capital, #wiki {
 	text-align: center;
+	white-space: normal;
 }
 
 .left {
@@ -464,21 +519,34 @@ img[src="images/earthquake.png"] {
 
 #capital {
 	clear: both;
+	font-size: 1.25rem;
+	margin: 5px 0px;
 }
 
 /*=== Capital city popup ===*/
 
 /*Small devices (up to iPad or landscape phone)*/
 @media only screen and (max-width: 800px) {
+	#widget-bar::after {
+		width: 1px;
+	}
+
 	.widget-content {
-		max-width: 95vw;
-		width: 95vw;
-		left: 2.5vw;
+		width: calc(100vw - 12px - 4rem);
 		overflow-x: hidden;
+	}
+
+	#weather-content {
+		max-height: fit-content;
 	}
 
 	#weather-bottom {
 		overflow-x: scroll;
+	}
+
+	#weather-bottom img {
+		position: relative;
+		right: 15px;
 	}
 
 	.forecast {
@@ -494,32 +562,29 @@ img[src="images/earthquake.png"] {
 		width: 90vw;
 		left: 5vw;
 	}
+
+	#capital-popup {
+		width: 80vw;
+	}
 }
 /*Small devices*/
 
 /*On landscape mode, small devices*/
 @media only screen and (orientation: landscape) and (max-height: 700px) {
-	/*Position widgets on the left by inverting dimensions*/
-	
-
+/*
 	#widget-icons {
 		flex-direction: column;
+		justify-content: space-between;
 		width: 3rem;
-		height: 50vh;
-		top: 25vh;
+		height: 40vh;
+		
 	}
 
 	.widget-content {
 		margin-top: 0;
-		margin-left: 15px;
 		width: fit-content(90vw);
 	}
-
-	/*Invert widget orientaion*/
-	.widget {
-		width: 3rem;
-	}
-
+	*/
 }
 
 /*If cursor is detected, show 'go' button*/

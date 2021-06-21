@@ -11,6 +11,7 @@ function handleLocError() {
 };
 
 function handleWeatherError(e) {
+	e.preventDefault();
 	$loader.removeClass().addClass('preloader-responsive').insertAfter($('#weather-top')).show();
 	let loc = userLocation.lat ?
 		{lat: userLocation.lat, lng: userLocation.lng} :
@@ -24,6 +25,7 @@ function handleWeatherError(e) {
 };
 
 function handleNewsError(e) {
+	e.preventDefault();
 	$loader.removeClass().addClass('preloader-responsive').appendTo($('#news-content')).show();
 	getNews(currentCountry[0])
 	.then((res, stat, req) => {
