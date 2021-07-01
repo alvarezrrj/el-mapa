@@ -149,7 +149,7 @@ function displayWeather(weather) {
 					case 6: day = 'Sunday'; break;
 				}
 				$d.find('img').attr('src', `https://openweathermap.org/img/wn/${f.weather[0].icon}@2x.png`);
-				$d.find('#weather-pop').html(`${f.pop * 100}%`);
+				$d.find('#weather-pop').html(`${Math.round(f.pop * 100)}%`);
 				$d.find('#weather-max').html(`${Math.round(f.temp.max)}`);
 				$d.find('#weather-min').html(`${Math.round(f.temp.min)}&#176;C`);
 				$d.find('#weather-day').html(day);

@@ -6,5 +6,8 @@ function getBorders(countryIso2) {
 			//Store response in countries object
 			countries[countryIso2].GJ = response;
 		},
+		error: function(req, message, error) {
+			alert(`We are having technical difficulties on our servers. Try again later. Error: ${error}`);
+		},
 	});
 };
